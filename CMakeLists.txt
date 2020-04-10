@@ -7,4 +7,5 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include_directories(src)
-add_executable(main.out src/main.cc)
+add_executable(main.out src/main.cc src/newsgroup.cc src/article.cc)
+
