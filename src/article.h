@@ -11,15 +11,16 @@
  *
  * */
 
-class Article {
-	public:
+struct Article {
 		Article(std::string title, std::string author, std::string text, unsigned int id);
+		Article(const Article &article); //Copy constructor
 
-	private:
+		bool operator==(const Article &article);
+
+		std::string text;
 		unsigned int id;				
 		std::string title;
 		std::string author;
-		std::string text;
 };
 
 

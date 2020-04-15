@@ -13,15 +13,19 @@
  *
  * */
 
-class Newsgroup {
-	public:
+struct Newsgroup {
 		Newsgroup(unsigned int id);	
 		void add_article(Article article);
+		void remove_article(Article article);
+		Article read_article(Article article);
+		std::vector<Article> list_articles();
 
-	private:
+
+
 		unsigned int id;
 		std::string name;
 		std::vector<Article> articles{};
+		
 
 };
 

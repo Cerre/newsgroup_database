@@ -23,8 +23,17 @@ int main() {
     std::cout << "Starting Newsgroup Database"  << std::endl;
 
 	Newsgroup n(1);
+	Newsgroup n2(2);
 	Article a("head", "author", "text body", 1);
+	Article b("head2", "author2", "text body2", 2);
+	Article c("head3", "author3", "text body3", 3);
+	Article d("head4", "author4", "text body4", 4);
 	n.add_article(a);
+	n2.add_article(b);
+	n.read_article(a);
+	n.add_article(c);
+	n.add_article(d);
+	n.list_articles();
 
 	bool running = true;
 	while (running) {
