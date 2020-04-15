@@ -2,6 +2,8 @@
 #include <string>
 #include "newsgroup.h"
 #include "article.h"
+#include "memory_database.h"
+
 
 using std::string;
 using std::cin;

@@ -1,6 +1,5 @@
 #ifndef ARTICLE_H
 #define ARTICLE_H
-
 #include <string>
 
 /* The Article class should contain
