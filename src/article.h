@@ -14,11 +14,11 @@ class Article {
 	public:
 		Article(std::string title, std::string author, std::string text, unsigned int id);
 
-	private:
-		unsigned int id;				
+	// private:
 		std::string title;
 		std::string author;
 		std::string text;
+		unsigned int id;				
 };
 
 

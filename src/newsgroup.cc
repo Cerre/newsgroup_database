@@ -2,7 +2,6 @@
 
 Newsgroup::Newsgroup(unsigned int id) : id(id) {}
 
-void Newsgroup::add_article(Article article) {
-	articles.push_back(article);
-}
+Newsgroup::Newsgroup(unsigned int id, std::string name) : id(id), name(name) {}
+
 

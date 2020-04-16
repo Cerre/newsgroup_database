@@ -16,9 +16,9 @@
 class Newsgroup {
 	public:
 		Newsgroup(unsigned int id);	
-		void add_article(Article article);
+		Newsgroup(unsigned int id, std::string name);
 
-	private:
+	// private:
 		unsigned int id;
 		std::string name;
 		std::vector<Article> articles{};
