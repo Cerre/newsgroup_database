@@ -10,34 +10,28 @@ public:
 
     MemoryDatabase();
 
-    void add_newsgroup(Newsgroup newsgroup) override;
+    void add_newsgroup(const Newsgroup &newsgroup) override;
 
-    void delete_newsgroup(Newsgroup newsgroup) override;
+    void delete_newsgroup(unsigned int) override;
 
 
-    void add_article(const Newsgroup &newsgroup, const Article &article) override;
+    void add_article(unsigned int, const Article &article) override;
 
-    void delete_article(const Newsgroup &newsgroup, const Article &article) override;
+    void delete_article(unsigned int, unsigned int) override;
 
-    void read_article(const Newsgroup &newsgroup, const Article &article) override;
+    Article read_article(unsigned int, unsigned int) override;
 
     //List newsgroups
     std::vector<Newsgroup> list_newsgroups() override; 
 
-    std::vector<Article> list_articles(const Newsgroup &newsgroup) override;
+    std::vector<Article> list_articles(unsigned int) override;
+
 
     friend std::ostream &operator<<(std::ostream& os, const MemoryDatabase &mem_db);
 
-    std::vector<Newsgroup>::iterator find_newsgroup(const Newsgroup &newsgroup);
 
-    std::vector<Article>::iterator find_article(Newsgroup &newsgroup, const Article &article);
-
-
-
-
-
-// private:
-    std::vector<Newsgroup> newsgroups;
+private:
+    std::map<unsigned int, Newsgroup> newsgroups;
 
     
 };

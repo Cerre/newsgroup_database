@@ -2,7 +2,7 @@
 #define NEWSGROUP_H
 
 #include <string>
-#include <vector>
+#include <map>
 #include "article.h"
 
 /* 
@@ -21,7 +21,7 @@ class Newsgroup {
 	// private:
 		unsigned int id;
 		std::string name;
-		std::vector<Article> articles{};
+		std::map<unsigned int, Article> articles{};
 
 };
 

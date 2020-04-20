@@ -12,116 +12,94 @@ MemoryDatabase::MemoryDatabase(){
 
     }
 
-void MemoryDatabase::add_newsgroup(Newsgroup newsgroup) {
-    newsgroups.push_back(newsgroup);
+void MemoryDatabase::add_newsgroup(const Newsgroup &newsgroup) {
+    newsgroups.insert ( std::pair<unsigned int, Newsgroup>(newsgroup.id,newsgroup) );
 }
 
 
-void MemoryDatabase::delete_newsgroup(Newsgroup newsgroup) {
-
+void MemoryDatabase::delete_newsgroup(unsigned int id) {
+    newsgroups.erase(id);
 }
 
 
 
 
 //Adds article
-void MemoryDatabase::add_article(const Newsgroup &newsgroup, const Article &article) {
-    auto it = std::find_if(newsgroups.begin(), newsgroups.end(), 
-					[newsgroup] (Newsgroup n) -> bool {
-						return newsgroup.id == n.id;
-					});
-    if (it == newsgroups.end()){
-        std::cout << "Newsgroup doesn't exist, code should never reach here" << std::endl;
-    }
-    else{
-        it->articles.push_back(article);
-    }
-
-
+void MemoryDatabase::add_article(unsigned int id, const Article &article) {
+    newsgroups.at(id).articles.insert(std::pair<unsigned int, Article>(article.id, article));
 }
 
 
 
 
 //Delete articles in newsgroup
-void MemoryDatabase::delete_article(const Newsgroup &newsgroup, const Article &article) {
-    // auto it = find_article(newsgroup, article);
-
-
+void MemoryDatabase::delete_article(unsigned int news_id, unsigned int art_id) {
+    newsgroups.at(news_id).articles.erase(art_id);
 }
 
 
 
 //Read articles in newsgroup
-void MemoryDatabase::read_article(const Newsgroup &newsgroup, const Article &article) {
-    auto it = find_newsgroup(newsgroup);
-    // auto it2 = find_article(*it, article);
-
-    // std::cout << it2->text << std::endl;
-
-
+Article MemoryDatabase::read_article(unsigned int news_id, unsigned int art_id) {
+    std::cout << newsgroups.at(news_id).articles.at(art_id).text << std::endl;
+    return newsgroups.at(news_id).articles.at(art_id);
 }
 
 
 
-//Help function. Maybe we should convert to map to reduce searching?
-std::vector<Newsgroup>::iterator MemoryDatabase::find_newsgroup(const Newsgroup &newsgroup){
-    auto it = std::find_if(newsgroups.begin(), newsgroups.end(), 
-                        [newsgroup] (Newsgroup n) -> bool {
-                            return n.id == newsgroup.id;
-                        });
-    return it;
-}
 
-// std::vector<Article>::iterator MemoryDatabase::find_article(constNewsgroup &newsgroup, const Article &article){
-//     auto it = std::find_if(newsgroup.articles.begin(), newsgroup.articles.end(),
-//                 [article] (Article a) -> bool {
-//                     return a.id == article.id;
-//                 });
-//     return it;
-
-// }
 
 
 //List newsgroups
 std::vector<Newsgroup> MemoryDatabase::list_newsgroups(){
-    for(std::vector<Newsgroup>::size_type i = 0; i != newsgroups.size(); i++) {
-        std::cout << newsgroups[i].name << std::endl;
+    std::vector<Newsgroup> result;
+    for (auto &key : newsgroups){
+        result.push_back(key.second);
+        std::cout << key.second.id << "     " << key.second.name << std::endl;
     }
-    return newsgroups;
+    return result;
 }
 
 
 
 
 //List articles
-std::vector<Article> MemoryDatabase::list_articles(const Newsgroup &newsgroup) {
-    auto it = find_newsgroup(newsgroup);
-        if (it == newsgroups.end()){
-            //Throw exception
-            std::cout << "No such group exists" << std::endl;
-        }
-        else{
-            std::cout << "Articles in newsgroup " << it->name << ":\n";
-            for(std::vector<Article>::size_type i = 0; i != it->articles.size(); i++) {
-                std::cout << i + 1  << "     " << it->articles[i].title << std::endl;
-            }
-            return it->articles;
-        }
+std::vector<Article> MemoryDatabase::list_articles(unsigned int news_id) {
+    std::vector<Article> result;
+    for (auto &key : newsgroups.at(news_id).articles){
+        result.push_back(key.second);
+        std::cout << key.second.id << "     " << key.second.title << std::endl;
+    }
+    return result;
+
 
 }
 
-
-//Print out entire database
-std::ostream& operator<<(std::ostream& os, const MemoryDatabase &mem_db){
+std::ostream& operator<<(std::ostream& os, const MemoryDatabase &mem_db) {
     os << "\nMemory Database Summation\n" << std::endl;
-    for(std::vector<Newsgroup>::size_type i = 0; i != mem_db.newsgroups.size(); i++) {
-        os << "Newsgroup: " << mem_db.newsgroups[i].name << std::endl;
-        os << "     Articles:" << std::endl;
-        for (std::vector<Article>::size_type j = 0; j != mem_db.newsgroups[i].articles.size(); j++) {
-            os << j + 1 << "         " << mem_db.newsgroups[i].articles[j].title << std::endl;
+    for (auto &key : mem_db.newsgroups){
+        os << "Newsgroup: " << key.second.name << std::endl;
+        os << "     Articles: " << std::endl;
+        for (auto &it : key.second.articles){
+            os << it.second.id << "     " << it.second.title << std::endl;
+
         }
         os << '\n';
-}
+
+    }
     return os;
 }
+//Print out entire database
+// std::ostream& operator<<(std::ostream& os, const MemoryDatabase &mem_db){
+//     os << "\nMemory Database Summation\n" << std::endl;
+//     for(std::map<Newsgroup>::size_type i = 0; i != mem_db.newsgroups.size(); i++) {
+//         os << "Newsgroup: " << mem_db.newsgroups[i].name << std::endl;
+//         os << "     Articles:" << std::endl;
+//         for (std::vector<Article>::size_type j = 0; j != mem_db.newsgroups[i].articles.size(); j++) {
+//             os << j + 1 << "         " << mem_db.newsgroups[i].articles[j].title << std::endl;
+//         }
+//         os << '\n';
+// }
+//     return os;
+// }
+
